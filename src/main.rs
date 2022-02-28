@@ -26,17 +26,16 @@ fn run_file(path: &String) {
 // interactive prompt analogous to a "REPL" when no script is provided
 fn run_prompt() ->  io::Result<()> {
     println!(">>> START interactive prompt session <<<");
-    let mut buffer = String::new();
 
     // REPL (read-eval-print loop) over user code
     loop {
+        let mut buffer = String::new();
         io::stdin().read_line(&mut buffer)?;
         if buffer == "exit\n" || buffer == "Exit\n" || buffer == "EXIT\n" || buffer == "\n" {
             break;
         } else {
             println!("running code");
             run(buffer);
-            buffer.clear();
         }
     }
 
@@ -46,9 +45,19 @@ fn run_prompt() ->  io::Result<()> {
 
 fn run(source: String) {
     let tokenizer: fireflytokenizer::Tokenizer = fireflytokenizer::Tokenizer::new(source);
-
     // For now, just print the tokens
     for token in tokenizer {
         println!("{:?}", token);
     }
+}
+
+fn error(line: u16, message: String) {
+    report(line, String::from(""), message);
+}
+
+fn report(line: u16, position: String, message: String) {
+    eprint!("[line {}] {}: {}", line, position, message);
+    // consequence ???
+    todo!(how does the rest of the program (main) see the error here without me
+          passing a parameter in?)
 }
