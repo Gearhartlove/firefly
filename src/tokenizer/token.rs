@@ -4,12 +4,12 @@ use std::fmt::Formatter;
 pub struct Token<T> {
     token_type: TokenType,
     lexeme: String,
-    literal: T,
+    literal: Option<T>,
     line: u16,
 }
 
 impl Token<T> {
-    pub fn new(token_type: TokenType, lexeme: String, literal: T, line: u16) -> Self {
+    pub fn new(token_type: TokenType, lexeme: String, literal: Option<T>, line: u16) -> Self {
         Self { token_type, lexeme, literal, line}
     }
 }
